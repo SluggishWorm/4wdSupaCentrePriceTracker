@@ -24,7 +24,8 @@ A Chrome/Edge browser extension that tracks historical prices for products on 4W
 
 *Track button appears on product pages:*
 ```
-[Track This Price] button appears below Add to Cart
+[Track This Price] button appears above Add to Cart
+![alt text](image1.png)
 ```
 
 *Popup shows all tracked products:*
@@ -51,6 +52,7 @@ Current: $629  |  Lowest: $629  |  Highest: $629
 4. Click the extension icon to see all tracked products
 5. Click "View Product" to open the product page
 6. Click "Remove" to stop tracking a product
+![alt text](image.png)
 
 ## 🛠️ How It Works
 
