@@ -2,9 +2,42 @@
 
 // Check if we're on a product page
 function isProductPage() {
-  return window.location.pathname.includes('.html') && 
-         !window.location.pathname.includes('/specials') &&
-         !window.location.pathname.includes('/stores');
+  const path = window.location.pathname;
+  
+  // Must end in .html
+  if (!path.endsWith('.html')) {
+    return false;
+  }
+  
+  // Exclude these paths
+  const excludePaths = [
+    '/stores.html',
+    '/search.html',
+    '/returns.html',
+    '/payment-options.html',
+    '/about-us.html'
+  ];
+  
+  // Exclude category pages (they have .html but are just listings)
+  const excludePatterns = [
+    '/stores/',
+    '/tips-tricks-tech/'
+  ];
+  
+  // Check if it matches any exclude path
+  if (excludePaths.includes(path)) {
+    return false;
+  }
+  
+  // Check if it contains any exclude pattern
+  for (const pattern of excludePatterns) {
+    if (path.includes(pattern)) {
+      return false;
+    }
+  }
+  
+  // If we got here, it's probably a product page
+  return true;
 }
 
 // Extract product info from the page
@@ -181,7 +214,7 @@ async function injectTrackButton() {
     
     // Use SKU if available, otherwise use product title
     const searchTerm = productInfo.sku || productInfo.title.split('|')[0].trim();
-    const searchUrl = `https://www.4wdsupacentre.com.au/catalogsearch/result/?q=${encodeURIComponent(searchTerm)}`;
+    const searchUrl = `https://www.4wdsupacentre.com.au/search.html?query=${encodeURIComponent(searchTerm)}`;
     
     // Open in new tab
     window.open(searchUrl, '_blank');
