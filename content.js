@@ -366,25 +366,93 @@ async function updateTrackedPrice() {
 }
 
 // Initialize when page loads
-if (isProductPage()) {
+console.log('[Price Tracker] Content script loaded');
+
+// Track the current URL
+let currentUrl = window.location.href;
+
+// Function to initialize everything
+function initialize() {
+  if (!isProductPage()) {
+    console.log('[Price Tracker] Not a product page, skipping initialization');
+    return;
+  }
+
   console.log('[Price Tracker] Product page detected, initializing...');
   
-  // Wait for page to fully load
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-      console.log('[Price Tracker] DOM loaded, waiting for dynamic content...');
-      setTimeout(() => {
-        injectTrackButton();
-        updateTrackedPrice();
-      }, 2000); // Increased wait time for dynamic content
-    });
-  } else {
-    console.log('[Price Tracker] DOM already loaded, waiting for dynamic content...');
-    setTimeout(() => {
+  // Check if button already exists (avoid duplicates)
+  if (document.getElementById('price-tracker-btn')) {
+    console.log('[Price Tracker] Button already exists, skipping');
+    return;
+  }
+  
+  // Wait for Add to Cart button to appear (better than setTimeout)
+  waitForAddToCart();
+}
+
+// Wait for the Add to Cart button to appear in the DOM
+function waitForAddToCart() {
+  const maxAttempts = 20; // Try for 10 seconds max
+  let attempts = 0;
+  
+  const checkInterval = setInterval(() => {
+    attempts++;
+    
+    // Look for Add to Cart button
+    const addToCartBtn = document.querySelector('button[type="submit"]');
+    
+    if (addToCartBtn) {
+      console.log('[Price Tracker] Add to Cart button found, injecting tracking buttons...');
+      clearInterval(checkInterval);
       injectTrackButton();
       updateTrackedPrice();
-    }, 2000); // Increased wait time
+    } else if (attempts >= maxAttempts) {
+      console.log('[Price Tracker] Add to Cart button not found after 10 seconds, using fallback...');
+      clearInterval(checkInterval);
+      injectTrackButton();
+      updateTrackedPrice();
+    }
+  }, 500); // Check every 500ms
+}
+
+// Watch for URL changes (for SPA navigation)
+function observeUrlChanges() {
+  // Method 1: Watch for history changes
+  const pushState = history.pushState;
+  const replaceState = history.replaceState;
+
+  history.pushState = function() {
+    pushState.apply(history, arguments);
+    checkUrlChange();
+  };
+
+  history.replaceState = function() {
+    replaceState.apply(history, arguments);
+    checkUrlChange();
+  };
+
+  // Method 2: Listen for popstate (back/forward button)
+  window.addEventListener('popstate', checkUrlChange);
+}
+
+function checkUrlChange() {
+  if (window.location.href !== currentUrl) {
+    console.log('[Price Tracker] URL changed from', currentUrl, 'to', window.location.href);
+    currentUrl = window.location.href;
+    
+    // Wait for the new page to load
+    setTimeout(() => {
+      initialize();
+    }, 1000);
   }
+}
+
+// Start watching for URL changes
+observeUrlChanges();
+
+// Initial load
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initialize);
 } else {
-  console.log('[Price Tracker] Not a product page, skipping initialization');
+  initialize();
 }
