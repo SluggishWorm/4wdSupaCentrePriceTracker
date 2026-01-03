@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>4WD Price Tracker</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="header">
+    <h1>📊 Price Tracker</h1>
+    <p class="subtitle">4WD Supacentre</p>
+  </div>
+  
+  <div class="content">
+    <div id="tracked-list" class="tracked-list">
+      <!-- Tracked products will be inserted here -->
+    </div>
+    
+    <div id="empty-state" class="empty-state" style="display: none;">
+      <p>No products tracked yet!</p>
+      <p class="hint">Visit a product page on 4WD Supacentre and click "Track This Price" to get started.</p>
+    </div>
+  </div>
+  
+  <div class="footer">
+    <button id="export-btn" class="btn-secondary">Export Data</button>
+    <button id="clear-all-btn" class="btn-danger">Clear All</button>
+  </div>
+  
+  <script src="popup.js"></script>
+</body>
+</html>

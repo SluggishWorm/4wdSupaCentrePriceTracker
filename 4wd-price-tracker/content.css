@@ -1,0 +1,107 @@
+/* content.css - Styles for injected elements */
+
+.price-tracker-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  margin: 10px 0;
+  width: 100%;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.price-tracker-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.price-tracker-btn[data-tracked="true"] {
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+}
+
+.price-history-display {
+  background: white;
+  border: 2px solid #667eea;
+  border-radius: 12px;
+  padding: 20px;
+  margin: 20px 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.price-history-display h3 {
+  margin-top: 0;
+  color: #333;
+  font-size: 20px;
+  border-bottom: 2px solid #667eea;
+  padding-bottom: 10px;
+}
+
+.price-stats {
+  display: flex;
+  justify-content: space-around;
+  margin: 20px 0;
+  gap: 15px;
+}
+
+.price-stats .stat {
+  flex: 1;
+  text-align: center;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.price-stats .label {
+  display: block;
+  font-size: 12px;
+  color: #666;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+
+.price-stats .value {
+  display: block;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+
+.price-stats .value.lowest {
+  color: #38ef7d;
+}
+
+.price-list {
+  margin-top: 20px;
+}
+
+.price-list h4 {
+  margin: 10px 0;
+  color: #666;
+  font-size: 14px;
+}
+
+.price-entry {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.price-entry:last-child {
+  border-bottom: none;
+}
+
+.price-entry span:first-child {
+  font-weight: 600;
+  color: #333;
+}
+
+.price-entry .date {
+  color: #999;
+  font-size: 14px;
+}
