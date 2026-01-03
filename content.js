@@ -166,23 +166,48 @@ async function injectTrackButton() {
     }
   });
   
-  // Insert the button
+  // Create "Search for Bundles" button
+  const bundleButton = document.createElement('button');
+  bundleButton.className = 'price-tracker-btn bundle-search-btn';
+  bundleButton.type = 'button';
+  bundleButton.innerHTML = '🔍 Search for Bundles';
+  bundleButton.title = productInfo.sku ? `Search for SKU: ${productInfo.sku}` : 'Search for this product in bundles';
+  
+  bundleButton.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    console.log('[Price Tracker] Bundle search clicked');
+    
+    // Use SKU if available, otherwise use product title
+    const searchTerm = productInfo.sku || productInfo.title.split('|')[0].trim();
+    const searchUrl = `https://www.4wdsupacentre.com.au/catalogsearch/result/?q=${encodeURIComponent(searchTerm)}`;
+    
+    // Open in new tab
+    window.open(searchUrl, '_blank');
+    console.log('[Price Tracker] Opened bundle search for:', searchTerm);
+  });
+  
+  // Insert the buttons
   const addToCartBtn = targetContainer.querySelector('button[type="submit"]');
   if (addToCartBtn && addToCartBtn.parentElement && addToCartBtn.parentElement === targetContainer) {
     // Insert right after the Add to Cart button if it's a direct child
     addToCartBtn.parentElement.insertBefore(trackButton, addToCartBtn.nextSibling);
-    console.log('[Price Tracker] Button inserted after Add to Cart button');
+    addToCartBtn.parentElement.insertBefore(bundleButton, trackButton.nextSibling);
+    console.log('[Price Tracker] Buttons inserted after Add to Cart button');
   } else if (addToCartBtn) {
     // Add to Cart exists but in different structure - put after it
     addToCartBtn.after(trackButton);
-    console.log('[Price Tracker] Button inserted after Add to Cart using .after()');
+    trackButton.after(bundleButton);
+    console.log('[Price Tracker] Buttons inserted after Add to Cart using .after()');
   } else {
     // No Add to Cart found - just append to container
     targetContainer.appendChild(trackButton);
-    console.log('[Price Tracker] Button appended to container');
+    targetContainer.appendChild(bundleButton);
+    console.log('[Price Tracker] Buttons appended to container');
   }
   
-  console.log('[Price Tracker] ✅ Button successfully injected!');
+  console.log('[Price Tracker] ✅ Buttons successfully injected!');
   
   // If already tracked, show price history
   if (tracked) {

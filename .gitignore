@@ -1,0 +1,28 @@
+# Development files
+.DS_Store
+Thumbs.db
+
+# Editor directories and files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+
+# Extension packaging
+*.zip
+*.crx
+*.pem
+
+# Node modules (if you add any build tools later)
+node_modules/
+package-lock.json
+yarn.lock
+
+# Test files
+test/
+tests/
+*.test.js

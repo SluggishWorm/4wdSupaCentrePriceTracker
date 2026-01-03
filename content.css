@@ -24,6 +24,15 @@
   background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
 }
 
+.bundle-search-btn {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  margin-top: 5px;
+}
+
+.bundle-search-btn:hover {
+  background: linear-gradient(135deg, #e082ea 0%, #e4465b 100%);
+}
+
 .price-history-display {
   background: white;
   border: 2px solid #667eea;
